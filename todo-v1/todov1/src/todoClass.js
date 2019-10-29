@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import "./App.css";
 
 class App extends Component {
@@ -7,16 +7,19 @@ class App extends Component {
       { id: 1, content: "HTML", completed: false },
       { id: 2, content: "CSS", completed: true },
       { id: 3, content: "Javascript", completed: false }
-    ],
-    value: ""
+    ]
   };
+
+  inputRef = createRef();
+  checkRef = createRef();
 
   onChangeInput = e => {
     e.preventDefault();
-    this.setState({ value: e.target.value });
+    this.setState({ inputRef: e.target.value });
   };
 
   addTodo = e => {
+    const content = this.inputRef.current.value.trim();
     if (e.keyCode !== 13) return;
     this.setState(prevState => {
       return {
@@ -24,13 +27,13 @@ class App extends Component {
           ...prevState.todos,
           {
             id: this.generateId(),
-            content: this.state.value,
+            content,
             completed: false
           }
-        ],
-        value: ""
+        ]
       };
     });
+    this.inputRef.current.value = "";
   };
 
   generateId = () => {
@@ -56,19 +59,41 @@ class App extends Component {
     });
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log(this.state.todos);
-    console.log(nextState.todos);
-    if (this.state.todos !== nextState.todos) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  allComplete = () => {
+    this.setState({
+      todos: this.state.todos.map(todo => {
+        return { ...todo, completed: this.checkRef.current.checked };
+      })
+    });
+  };
+
+  clearComplete = () => {
+    this.setState({
+      todos: this.state.todos.filter(todo => todo.completed === false)
+    });
+  };
+
+  completedNumber = () => {
+    return this.state.todos.filter(todo => todo.completed === true).length;
+  };
+
+  unCompletedNumber = () => {
+    return this.state.todos.filter(todo => todo.completed === false).length;
+  };
+
+  //   shouldComponentUpdate(nextProps, nextState) {
+  //     console.log(this.state.todos);
+  //     console.log(nextState.todos);
+  //     if (this.state.todos !== nextState.todos) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   }
 
   render() {
-    const { value, todos } = this.state;
-
+    const { todos } = this.state;
+    console.log(todos);
     return (
       <>
         <div className="container">
@@ -78,7 +103,7 @@ class App extends Component {
           <input
             className="input-todo"
             placeholder="What needs to be done?"
-            value={value}
+            ref={this.inputRef}
             onChange={this.onChangeInput}
             onKeyUp={this.addTodo}
             autoFocus
@@ -119,14 +144,23 @@ class App extends Component {
                 className="custom-checkbox"
                 type="checkbox"
                 id="ck-complete-all"
+                ref={this.checkRef}
+                onChange={this.allComplete}
               />
               <label htmlFor="ck-complete-all">Mark all as complete</label>
             </div>
             <div className="clear-completed">
-              <button className="btn">
-                Clear completed (<span className="completed-todos">0</span>)
+              <button className="btn" onClick={this.clearComplete}>
+                Clear completed (
+                <span className="completed-todos">
+                  {this.completedNumber()}
+                </span>
+                )
               </button>
-              <strong className="active-todos">0</strong> items left
+              <strong className="active-todos">
+                {this.unCompletedNumber()}
+              </strong>{" "}
+              items left
             </div>
           </div>
         </div>
