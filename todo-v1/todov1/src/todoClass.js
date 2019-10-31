@@ -1,17 +1,21 @@
 import React, { Component, createRef } from "react";
 import "./App.css";
 
-class App extends Component {
+class TodoClass extends Component {
   state = {
     todos: [
       { id: 1, content: "HTML", completed: false },
       { id: 2, content: "CSS", completed: true },
       { id: 3, content: "Javascript", completed: false }
-    ]
+    ],
+    navState: 'All'
   };
 
   inputRef = createRef();
   checkRef = createRef();
+  allRef = createRef();
+  activeRef = createRef();
+  completedRef = createRef();
 
   onChangeInput = e => {
     e.preventDefault();
@@ -81,6 +85,17 @@ class App extends Component {
     return this.state.todos.filter(todo => todo.completed === false).length;
   };
 
+  changeNav = (navId) => {
+    // console.log(navId);
+    if(navId === 1) {
+      this.setState({navState: 'All'});
+    } else if(navId === 2) {
+      this.setState({navState: 'Active' });
+    } else {
+      this.setState({navState: 'Completed'});
+    }
+  };
+
   //   shouldComponentUpdate(nextProps, nextState) {
   //     console.log(this.state.todos);
   //     console.log(nextState.todos);
@@ -92,7 +107,9 @@ class App extends Component {
   //   }
 
   render() {
-    const { todos } = this.state;
+    const { todos, navState } = this.state;
+    const navItems = [{ id: 1, navVal: 'All' }, { id: 2, navVal: 'Active' }, { id: 3, navVal: 'Completed'}];
+
     console.log(todos);
     return (
       <>
@@ -109,34 +126,38 @@ class App extends Component {
             autoFocus
           />
           <ul className="nav">
-            <li id="all" className="active">
-              All
-            </li>
-            <li id="active">Active</li>
-            <li id="completed">Completed</li>
+            {navItems.map((navItem) => {
+              return <li key={navItem.id} className={navItem.navVal === this.state.navState ? 'active' : null} onClick={() => this.changeNav(navItem.id)}>{navItem.navVal}</li>
+            }
+            )}
           </ul>
 
           <ul className="todos">
-            {todos.map(todo => {
-              return (
-                <li key={todo.id} id={todo.id} className="todo-item">
-                  <input
-                    className="custom-checkbox"
-                    type="checkbox"
-                    id={`ck-${todo.id}`}
-                    checked={todo.completed}
-                    onChange={() => this.checkedChange(todo.id)}
-                  />
-                  <label htmlFor={`ck-${todo.id}`}>{todo.content}</label>
-                  <i
-                    className="remove-todo far fa-times-circle"
-                    onClick={() => {
-                      this.removeTodo(todo.id);
-                    }}
-                  ></i>
-                </li>
-              );
-            })}
+            {todos.filter( (todo) => {
+              if(navState === 'Active') {return !todo.completed}
+              if(navState === 'Completed') {return todo.completed}
+              return true;
+            })
+            .map(todo => {
+                return (
+                  <li key={todo.id} id={todo.id} className="todo-item">
+                    <input
+                      className="custom-checkbox"
+                      type="checkbox"
+                      id={`ck-${todo.id}`}
+                      checked={todo.completed}
+                      onChange={() => this.checkedChange(todo.id)}
+                    />
+                    <label htmlFor={`ck-${todo.id}`}>{todo.content}</label>
+                    <i
+                      className="remove-todo far fa-times-circle"
+                      onClick={() => {
+                        this.removeTodo(todo.id);
+                      }}
+                    ></i>
+                  </li>
+                );
+              })}
           </ul>
           <div className="footer">
             <div className="complete-all">
@@ -169,4 +190,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default TodoClass;
