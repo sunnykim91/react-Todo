@@ -1,5 +1,4 @@
 import React, { Component, createRef } from "react";
-import "./App.css";
 
 class TodoClass extends Component {
   state = {
@@ -13,9 +12,6 @@ class TodoClass extends Component {
 
   inputRef = createRef();
   checkRef = createRef();
-  allRef = createRef();
-  activeRef = createRef();
-  completedRef = createRef();
 
   onChangeInput = e => {
     e.preventDefault();
