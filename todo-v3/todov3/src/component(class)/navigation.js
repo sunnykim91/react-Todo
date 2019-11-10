@@ -1,23 +1,30 @@
 import React, { Component } from "react";
+import Store from "../store";
 
 class navigation extends Component {
   render() {
-    const { changeNav, navState, navItems } = this.props;
-
     return (
-      <ul className="nav">
-        {navItems.map(navItem => {
+      <Store.Consumer>
+        {store => {
           return (
-            <li
-              key={navItem.id}
-              className={navItem.navVal === navState ? "active" : null}
-              onClick={() => changeNav(navItem.id)}
-            >
-              {navItem.navVal}
-            </li>
+            <ul className="nav">
+              {store.navItems.map(navItem => {
+                return (
+                  <li
+                    key={navItem.id}
+                    className={
+                      navItem.navVal === store.navState ? "active" : null
+                    }
+                    onClick={() => store.changeNav(navItem.id)}
+                  >
+                    {navItem.navVal}
+                  </li>
+                );
+              })}
+            </ul>
           );
-        })}
-      </ul>
+        }}
+      </Store.Consumer>
     );
   }
 }

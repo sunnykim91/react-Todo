@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 // import App from './App';
-// import MainView from "./component(class)/mainView";
-import MainView from "./component(hooks)/mainView";
+import MainView from "./component(class)/mainView";
+// import MainView from "./component(hooks)/mainView";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(<MainView />, document.getElementById("root"));

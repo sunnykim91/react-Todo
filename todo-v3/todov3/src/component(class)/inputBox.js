@@ -1,17 +1,23 @@
 import React, { Component } from "react";
+import Store from "../store";
 
 class inputBox extends Component {
   render() {
-    const { addTodo, value, onChangeInput } = this.props;
     return (
-      <input
-        className="input-todo"
-        placeholder="What needs to be done?"
-        onChange={onChangeInput}
-        value={value}
-        onKeyUp={addTodo}
-        autoFocus
-      />
+      <Store.Consumer>
+        {store => {
+          return (
+            <input
+              className="input-todo"
+              placeholder="What needs to be done?"
+              onChange={store.onChangeInput}
+              value={store.value}
+              onKeyUp={store.addTodo}
+              autoFocus
+            />
+          );
+        }}
+      </Store.Consumer>
     );
   }
 }

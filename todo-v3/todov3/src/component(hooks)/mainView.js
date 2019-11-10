@@ -82,7 +82,7 @@ const MainView = () => {
   return (
     <div className="container">
       <h1 className="title">Todos</h1>
-      <div className="ver">2.0</div>
+      <div className="ver">3.0</div>
       <InputBox onChangeInput={onChangeInput} addTodo={addTodo} value={value} />
       <Navigation
         changeNav={changeNav}
