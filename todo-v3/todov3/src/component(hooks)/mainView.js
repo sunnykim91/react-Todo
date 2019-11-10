@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, createContext } from "react";
 import InputBox from "./inputBox";
 import Navigation from "./navigation";
 import TodoList from "./todoList";
 import Footer from "./footer";
+
+const TodoContext = createContext(null);
+const { Consumer: TodoConsumer } = TodoContext;
 
 const MainView = () => {
   const [todos, setTodos] = useState([
@@ -10,7 +13,7 @@ const MainView = () => {
     { id: 2, content: "CSS", completed: true },
     { id: 3, content: "Javascript", completed: false }
   ]);
-  const [value, setValue] = useState("");
+  const [InputValue, setInputValue] = useState("");
   const [navState, setNavState] = useState("All");
   const navItems = [
     { id: 1, navVal: "All" },
@@ -20,17 +23,17 @@ const MainView = () => {
 
   const onChangeInput = e => {
     e.preventDefault();
-    setValue(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const addTodo = e => {
-    const content = value.trim();
+    const content = InputValue.trim();
     if (e.keyCode !== 13 || content === "") return;
     setTodos(prevTodos => [
       ...prevTodos,
       { id: generateId(), content, completed: false }
     ]);
-    setValue("");
+    setInputValue("");
   };
 
   const generateId = () => {
@@ -79,30 +82,35 @@ const MainView = () => {
     }
   };
 
+  const value = {
+    state: { todos, InputValue, navState, navItems },
+    actions: {
+      onChangeInput,
+      addTodo,
+      checkedChange,
+      removeTodo,
+      allComplete,
+      clearComplete,
+      completedNumber,
+      unCompletedNumber,
+      changeNav
+    }
+  };
+
   return (
-    <div className="container">
-      <h1 className="title">Todos</h1>
-      <div className="ver">3.0</div>
-      <InputBox onChangeInput={onChangeInput} addTodo={addTodo} value={value} />
-      <Navigation
-        changeNav={changeNav}
-        navState={navState}
-        navItems={navItems}
-      />
-      <TodoList
-        checkedChange={checkedChange}
-        removeTodo={removeTodo}
-        todos={todos}
-        navState={navState}
-      />
-      <Footer
-        allComplete={allComplete}
-        clearComplete={clearComplete}
-        completedNumber={completedNumber}
-        unCompletedNumber={unCompletedNumber}
-      />
-    </div>
+    <TodoContext.Provider value={value}>
+      <div className="container">
+        <h1 className="title">Todos</h1>
+        <div className="ver">3.0</div>
+        <InputBox />
+        <Navigation />
+        <TodoList />
+        <Footer />
+      </div>
+    </TodoContext.Provider>
   );
 };
+
+export { TodoConsumer };
 
 export default MainView;

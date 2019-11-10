@@ -1,15 +1,20 @@
 import React from "react";
+import { TodoConsumer } from "./mainView";
 
-const inputBox = ({ addTodo, value, onChangeInput }) => {
+const inputBox = () => {
   return (
-    <input
-      className="input-todo"
-      placeholder="What needs to be done?"
-      onChange={onChangeInput}
-      value={value}
-      onKeyUp={addTodo}
-      autoFocus
-    />
+    <TodoConsumer>
+      {value => (
+        <input
+          className="input-todo"
+          placeholder="What needs to be done?"
+          onChange={value.actions.onChangeInput}
+          value={value.state.InputValue}
+          onKeyUp={value.actions.addTodo}
+          autoFocus
+        />
+      )}
+    </TodoConsumer>
   );
 };
 

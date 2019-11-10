@@ -1,39 +1,44 @@
 import React from "react";
+import { TodoConsumer } from "./mainView";
 
-const todoList = ({ checkedChange, removeTodo, todos, navState }) => {
+const todoList = () => {
   return (
-    <ul className="todos">
-      {todos
-        .filter(todo => {
-          if (navState === "Active") {
-            return !todo.completed;
-          }
-          if (navState === "Completed") {
-            return todo.completed;
-          }
-          return true;
-        })
-        .map(todo => {
-          return (
-            <li key={todo.id} id={todo.id} className="todo-item">
-              <input
-                className="custom-checkbox"
-                type="checkbox"
-                id={`ck-${todo.id}`}
-                checked={todo.completed}
-                onChange={() => checkedChange(todo.id)}
-              />
-              <label htmlFor={`ck-${todo.id}`}>{todo.content}</label>
-              <i
-                className="remove-todo far fa-times-circle"
-                onClick={() => {
-                  removeTodo(todo.id);
-                }}
-              ></i>
-            </li>
-          );
-        })}
-    </ul>
+    <TodoConsumer>
+      {value => (
+        <ul className="todos">
+          {value.state.todos
+            .filter(todo => {
+              if (value.state.navState === "Active") {
+                return !todo.completed;
+              }
+              if (value.state.navState === "Completed") {
+                return todo.completed;
+              }
+              return true;
+            })
+            .map(todo => {
+              return (
+                <li key={todo.id} id={todo.id} className="todo-item">
+                  <input
+                    className="custom-checkbox"
+                    type="checkbox"
+                    id={`ck-${todo.id}`}
+                    checked={todo.completed}
+                    onChange={() => value.actions.checkedChange(todo.id)}
+                  />
+                  <label htmlFor={`ck-${todo.id}`}>{todo.content}</label>
+                  <i
+                    className="remove-todo far fa-times-circle"
+                    onClick={() => {
+                      value.actions.removeTodo(todo.id);
+                    }}
+                  ></i>
+                </li>
+              );
+            })}
+        </ul>
+      )}
+    </TodoConsumer>
   );
 };
 

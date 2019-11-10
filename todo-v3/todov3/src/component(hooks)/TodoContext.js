@@ -1,11 +1,19 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 
 const TodoContext = createContext({
-  state: {},
-  actions: {}
+  state: { color: "black" },
+  actions: {
+    setColor: () => {}
+  }
 });
 
-const TodoProvider = ({}) => {};
+const TodoProvider = ({ children }) => {
+  const [color, setColor] = useState("black");
+  const value = {
+    state: { color },
+    actions: { setColor }
+  };
+};
 
 const { Consumer: TodoConsumer } = TodoContext;
 

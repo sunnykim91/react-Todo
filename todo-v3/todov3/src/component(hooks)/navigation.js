@@ -1,20 +1,27 @@
 import React from "react";
+import { TodoConsumer } from "./mainView";
 
-const navigation = ({ changeNav, navState, navItems }) => {
+const navigation = () => {
   return (
-    <ul className="nav">
-      {navItems.map(navItem => {
-        return (
-          <li
-            key={navItem.id}
-            className={navItem.navVal === navState ? "active" : null}
-            onClick={() => changeNav(navItem.id)}
-          >
-            {navItem.navVal}
-          </li>
-        );
-      })}
-    </ul>
+    <TodoConsumer>
+      {value => (
+        <ul className="nav">
+          {value.state.navItems.map(navItem => {
+            return (
+              <li
+                key={navItem.id}
+                className={
+                  navItem.navVal === value.state.navState ? "active" : null
+                }
+                onClick={() => value.actions.changeNav(navItem.id)}
+              >
+                {navItem.navVal}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </TodoConsumer>
   );
 };
 
