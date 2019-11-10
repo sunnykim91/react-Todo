@@ -5,17 +5,17 @@ class navigation extends Component {
   render() {
     return (
       <Store.Consumer>
-        {store => {
+        {({ state, actions }) => {
           return (
             <ul className="nav">
-              {store.navItems.map(navItem => {
+              {state.navItems.map(navItem => {
                 return (
                   <li
                     key={navItem.id}
                     className={
-                      navItem.navVal === store.navState ? "active" : null
+                      navItem.navVal === state.navState ? "active" : null
                     }
-                    onClick={() => store.changeNav(navItem.id)}
+                    onClick={() => actions.changeNav(navItem.id)}
                   >
                     {navItem.navVal}
                   </li>

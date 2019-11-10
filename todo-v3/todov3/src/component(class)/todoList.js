@@ -5,15 +5,15 @@ class todoList extends Component {
   render() {
     return (
       <Store.Consumer>
-        {store => {
+        {({ state, actions }) => {
           return (
             <ul className="todos">
-              {store.todos
+              {state.todos
                 .filter(todo => {
-                  if (store.navState === "Active") {
+                  if (state.navState === "Active") {
                     return !todo.completed;
                   }
-                  if (store.navState === "Completed") {
+                  if (state.navState === "Completed") {
                     return todo.completed;
                   }
                   return true;
@@ -26,13 +26,13 @@ class todoList extends Component {
                         type="checkbox"
                         id={`ck-${todo.id}`}
                         checked={todo.completed}
-                        onChange={() => store.checkedChange(todo.id)}
+                        onChange={() => actions.checkedChange(todo.id)}
                       />
                       <label htmlFor={`ck-${todo.id}`}>{todo.content}</label>
                       <i
                         className="remove-todo far fa-times-circle"
                         onClick={() => {
-                          store.removeTodo(todo.id);
+                          actions.removeTodo(todo.id);
                         }}
                       ></i>
                     </li>

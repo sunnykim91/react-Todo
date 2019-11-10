@@ -5,14 +5,14 @@ class inputBox extends Component {
   render() {
     return (
       <Store.Consumer>
-        {store => {
+        {({ state, actions }) => {
           return (
             <input
               className="input-todo"
               placeholder="What needs to be done?"
-              onChange={store.onChangeInput}
-              value={store.value}
-              onKeyUp={store.addTodo}
+              onChange={actions.onChangeInput}
+              value={state.value}
+              onKeyUp={actions.addTodo}
               autoFocus
             />
           );

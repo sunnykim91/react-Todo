@@ -5,7 +5,7 @@ class footer extends Component {
   render() {
     return (
       <Store.Consumer>
-        {store => {
+        {({ actions }) => {
           return (
             <div className="footer">
               <div className="complete-all">
@@ -13,20 +13,20 @@ class footer extends Component {
                   className="custom-checkbox"
                   type="checkbox"
                   id="ck-complete-all"
-                  onChange={store.allComplete}
+                  onChange={actions.allComplete}
                 />
                 <label htmlFor="ck-complete-all">Mark all as complete</label>
               </div>
               <div className="clear-completed">
-                <button className="btn" onClick={store.clearComplete}>
+                <button className="btn" onClick={actions.clearComplete}>
                   Clear completed (
                   <span className="completed-todos">
-                    {store.completedNumber()}
+                    {actions.completedNumber()}
                   </span>
                   )
                 </button>
                 <strong className="active-todos">
-                  {store.unCompletedNumber()}
+                  {actions.unCompletedNumber()}
                 </strong>{" "}
                 items left
               </div>
