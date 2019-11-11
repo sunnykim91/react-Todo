@@ -7,16 +7,17 @@ class TodoClass extends Component {
       { id: 2, content: "CSS", completed: true },
       { id: 3, content: "Javascript", completed: false }
     ],
+  
     navState: 'All'
   };
 
   inputRef = createRef();
   checkRef = createRef();
 
-  onChangeInput = e => {
-    e.preventDefault();
-    this.setState({ inputRef: e.target.value });
-  };
+  // onChangeInput = e => {
+  //   e.preventDefault(); 
+  //   this.setState({ value: e.target.value });
+  // };
 
   addTodo = e => {
     const content = this.inputRef.current.value.trim();
@@ -117,7 +118,8 @@ class TodoClass extends Component {
             className="input-todo"
             placeholder="What needs to be done?"
             ref={this.inputRef}
-            onChange={this.onChangeInput}
+            // onChange={e => this.onChangeInput(e)}
+            //           this.onChangeInput
             onKeyUp={this.addTodo}
             autoFocus
           />
