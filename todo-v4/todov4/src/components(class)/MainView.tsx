@@ -41,7 +41,6 @@ class mainView extends React.Component<Props, State> {
   };
 
   onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
     this.setState({ input: e.target.value });
   };
 

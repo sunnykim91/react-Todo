@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 
 interface Props {
-  addTodo(): any;
+  addTodo: any;
   value: string;
-  onChangeInput(): any;
+  onChangeInput: any;
 }
 
 class inputBox extends React.Component<Props> {
