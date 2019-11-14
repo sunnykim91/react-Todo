@@ -1,17 +1,16 @@
-import React from "react";
-import { TodoConsumer } from "./mainView";
+import React, {useContext} from "react";
+import {TodoContext} from "./mainView";
 
-const todoList = () => {
+const TodoList = () => {
+  const {state, actions}  = useContext(TodoContext);
   return (
-    <TodoConsumer>
-      {value => (
         <ul className="todos">
-          {value.state.todos
+      {state.todos
             .filter(todo => {
-              if (value.state.navState === "Active") {
+              if (state.navState === "Active") {
                 return !todo.completed;
               }
-              if (value.state.navState === "Completed") {
+              if (state.navState === "Completed") {
                 return todo.completed;
               }
               return true;
@@ -24,22 +23,20 @@ const todoList = () => {
                     type="checkbox"
                     id={`ck-${todo.id}`}
                     checked={todo.completed}
-                    onChange={() => value.actions.checkedChange(todo.id)}
+                    onChange={() => actions.checkedChange(todo.id)}
                   />
                   <label htmlFor={`ck-${todo.id}`}>{todo.content}</label>
                   <i
                     className="remove-todo far fa-times-circle"
                     onClick={() => {
-                      value.actions.removeTodo(todo.id);
+                      actions.removeTodo(todo.id);
                     }}
                   ></i>
                 </li>
               );
             })}
         </ul>
-      )}
-    </TodoConsumer>
   );
 };
 
-export default todoList;
+export default TodoList;

@@ -4,8 +4,7 @@ import Navigation from "./navigation";
 import TodoList from "./todoList";
 import Footer from "./footer";
 
-const TodoContext = createContext(null);
-const { Consumer: TodoConsumer } = TodoContext;
+export const TodoContext = createContext();
 
 const MainView = () => {
   const [todos, setTodos] = useState([
@@ -110,7 +109,5 @@ const MainView = () => {
     </TodoContext.Provider>
   );
 };
-
-export { TodoConsumer };
 
 export default MainView;

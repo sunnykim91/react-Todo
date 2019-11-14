@@ -1,28 +1,25 @@
-import React from "react";
-import { TodoConsumer } from "./mainView";
+import React, {useContext} from "react";
+import {TodoContext} from "./mainView";
 
-const navigation = () => {
+const Navigation = () => {
+  const {state, actions} = useContext(TodoContext);
   return (
-    <TodoConsumer>
-      {value => (
         <ul className="nav">
-          {value.state.navItems.map(navItem => {
+          {state.navItems.map(navItem => {
             return (
               <li
                 key={navItem.id}
                 className={
-                  navItem.navVal === value.state.navState ? "active" : null
+                  navItem.navVal === state.navState ? "active" : null
                 }
-                onClick={() => value.actions.changeNav(navItem.id)}
+                onClick={() => actions.changeNav(navItem.id)}
               >
                 {navItem.navVal}
               </li>
             );
           })}
         </ul>
-      )}
-    </TodoConsumer>
   );
 };
 
-export default navigation;
+export default Navigation;
