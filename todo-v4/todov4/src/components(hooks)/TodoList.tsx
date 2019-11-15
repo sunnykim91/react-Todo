@@ -33,7 +33,7 @@ const TodoList: React.SFC<Props> = ({
         })
         .map(todo => {
           return (
-            <li key={todo.id} id={todo.id + ""} className="todo-item">
+            <li key={todo.id} id={`${todo.id}`} className="todo-item">
               <input
                 className="custom-checkbox"
                 type="checkbox"

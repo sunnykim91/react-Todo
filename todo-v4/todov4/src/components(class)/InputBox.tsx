@@ -1,9 +1,9 @@
 import React from "react";
 
 interface Props {
-  addTodo: any;
+  addTodo(e: React.KeyboardEvent<HTMLInputElement>): void;
   value: string;
-  onChangeInput: any;
+  onChangeInput(e: React.ChangeEvent<HTMLInputElement> ): void;
 }
 
 class inputBox extends React.Component<Props> {

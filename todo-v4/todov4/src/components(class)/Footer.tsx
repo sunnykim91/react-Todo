@@ -1,7 +1,7 @@
 import React from "react";
 
 interface Props {
-  allComplete: any;
+  allComplete(e: any): void;
   clearComplete(): void;
   completedNumber(): number;
   unCompletedNumber(): number;

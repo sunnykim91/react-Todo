@@ -36,7 +36,7 @@ const MainView: React.SFC = () => {
     return !todos.length ? 1 : Math.max(...todos.map(todo => todo.id)) + 1;
   };
 
-  const checkedChange = (id: number) => {
+  const checkedChange = (id: number): void => {
     setTodos(prevTodos =>
       prevTodos.map(todo =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo
@@ -44,11 +44,11 @@ const MainView: React.SFC = () => {
     );
   };
 
-  const removeTodo = (id: number) => {
+  const removeTodo = (id: number): void => {
     setTodos(todos.filter(todo => todo.id !== id));
   };
 
-  const allComplete = (e: any) => {
+  const allComplete = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodos(
       todos.map(todo => {
         return { ...todo, completed: e.target.checked };
